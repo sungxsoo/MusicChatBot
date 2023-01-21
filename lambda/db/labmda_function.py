@@ -1,30 +1,40 @@
 import boto3
 import json
 
+import jsonpath
+
 dynamodb = boto3.resource("dynamodb")
 
+
 def lambda_handler(event, context):
-    table = dynamodb.Table('top_track')
+    table = dynamodb.Table('artist_tracks')
 
     data = event['data']
 
-    for ele in data['tracks'][:3]:
-        id = ele['id']
-        track_name = ele['name']
-        album_data = ele['album']
-        popularity =ele['popularity']
-        artist_id = ele['artists'][0]['id']
-        artist_name = ele['artists'][0]['name']
+    top_track_keys = {
+        "track_id": "id",
+        "name": "name",
+        "popularity": "popularity",
+        "external_url": "external_url.spotify",
+        "album_name": "album.name",
+        "image_url": "album.images[1].url"
+    }
 
-        response = table.put_item(
-            Item = {
-                'id' : id,
-                'album_data': album_data,
-                'artist_id' : artist_id,
-                'artist_name': artist_name,
-                'track_name': track_name,
-                'popularity': popularity,
+    with table.batch_writer() as batch:
+        for track in data['tracks']:
+
+            temp = {
+                'artist_id': track['artists'][0]['id'],
+                'artist_name': track['artists'][0]['name']
             }
-        )
+            for k, v in top_track_keys.items():
+                value = jsonpath.jsonpath(track, v)
+                if type(value) == bool:
+                    continue
+                temp.update({k: value[0]})
+
+            response = table.put_item(
+                Item=temp
+            )
 
     return response

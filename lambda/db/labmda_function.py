@@ -13,7 +13,7 @@ def lambda_handler(event, context):
 
     top_track_keys = {
         "track_id": "id",
-        "name": "name",
+        "track_name": "name",
         "popularity": "popularity",
         "external_url": "external_url.spotify",
         "album_name": "album.name",

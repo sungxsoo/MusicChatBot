@@ -18,6 +18,10 @@
     - 입력한 가수에 대한 Spotify 앱 내에서의 Top 3 트랙을 검색하여 보여줍니다.
 - 연관 가수 소개
     - 입력한 가수와 타 가수들의 Track 상세 정보 (audio Feature)를 바탕으로 거리를 계산하여, 거리가 가까운 (연관된) 가수와 해당 가수의 Track 정보를 보여줍니다.
+    - 
+#✈️ Airflow Dags
+<img src="https://user-images.githubusercontent.com/79965168/217505299-7a9100bc-2d88-4185-bbf7-c059c2af25bf.png"  width="1200" height="400"/>
+
 
 # 📷 Screenshot
 
